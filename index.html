@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akademix - Academic Feedback</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'akademix-orange': '#FF6B00'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    
+
+    <div class="container mx-auto px-4 py-8 max-w-2xl">
+        <div class="bg-white shadow-2xl rounded-2xl overflow-hidden">
+            <div class="bg-gradient-to-r from-akademix-orange to-orange-500 p-6">
+                <h2 class="text-4xl font-extrabold text-white text-center tracking-tight">Academic Feedback</h2>
+                <p class="text-center text-white/80 mt-2">Share your insights to help us improve</p>
+            </div>
+            
+            <form id="feedbackForm" class="p-6 space-y-6" onsubmit="submitFeedback(event)">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name" 
+                            required 
+                            placeholder="Your full name"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-akademix-orange transition duration-200"
+                        >
+                    </div>
+                    
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            required 
+                            placeholder="you@example.com"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-akademix-orange transition duration-200"
+                        >
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Feedback Category</label>
+                        <select 
+                            id="category" 
+                            name="category" 
+                            required 
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-akademix-orange transition duration-200"
+                        >
+                            <option value="" disabled selected>Select Category</option>
+                            <option value="Exam">Exam Experience</option>
+                            <option value="Assignments">Assignment Quality</option>
+                            <option value="Classes">Teaching Methodology</option>
+                            <option value="Infrastructure">Campus Infrastructure</option>
+                            <option value="Others">Other Suggestions</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Subject/Course</label>
+                        <input 
+                            type="text" 
+                            id="subject" 
+                            name="subject" 
+                            required 
+                            placeholder="e.g. Advanced Mathematics"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-akademix-orange transition duration-200"
+                        >
+                    </div>
+                </div>
+
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Detailed Feedback</label>
+                    <textarea 
+                        id="description" 
+                        name="description" 
+                        required 
+                        rows="4"
+                        placeholder="Provide detailed insights about your experience..."
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-akademix-orange transition duration-200 resize-none"
+                    ></textarea>
+                </div>
+
+                <button 
+                    type="submit" 
+                    class="w-full bg-akademix-orange text-white py-3 rounded-md hover:bg-orange-600 transition duration-300 ease-in-out transform hover:scale-[1.02] shadow-md hover:shadow-lg"
+                >
+                    Submit Feedback
+                </button>
+            </form>
+        </div>
+        
+        <div id="successMessage" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+            <div class="bg-white p-8 rounded-xl shadow-2xl text-center max-w-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-akademix-orange mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">Feedback Submitted!</h3>
+                <p class="text-gray-600 mb-4">Thank you for helping us improve.</p>
+                <button onclick="closeSuccessMessage()" class="bg-akademix-orange text-white px-6 py-2 rounded-md hover:bg-orange-600">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // EmailJS Initialization
+        (function(){
+            emailjs.init({
+                publicKey: "cA9fZgMQoJqPXzlzX",
+            });
+        })();
+
+        function submitFeedback(event) {
+            event.preventDefault();
+            
+            // Collect form data
+            const formData = {
+                name: document.getElementById("name").value.trim(),
+                email: document.getElementById("email").value.trim(),
+                category: document.getElementById("category").value,
+                course: document.getElementById("subject").value.trim(),
+                message: document.getElementById("description").value.trim()
+            };
+
+            // Basic validation
+            if (Object.values(formData).some(value => !value)) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Send email using EmailJS
+            emailjs.send("service_4nvyxnd", "template_2zw1yra", formData)
+                .then(() => {
+                    document.getElementById('feedbackForm').reset();
+                    document.getElementById('successMessage').classList.remove('hidden');
+                })
+                .catch((error) => {
+                    console.error("Email send failed:", error);
+                    alert("Failed to submit feedback. Please try again.");
+                });
+        }
+
+        function closeSuccessMessage() {
+            document.getElementById('successMessage').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
