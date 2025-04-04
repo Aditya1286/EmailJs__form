@@ -3,163 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akademix - Academic Feedback</title>
+    <title>LPU Student Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'akademix-orange': '#FF6B00'
-                    }
-                }
-            }
-        }
+    <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
     </script>
+    <script type="text/javascript">
+    (function(){
+        emailjs.init({
+            publicKey: "cA9fZgMQoJqPXzlzX",
+        });
+    })();
+    </script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        
+        .input-transparent {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        /* Carousel styling */
+        .carousel {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .carousel-inner {
+            display: flex;
+            transition: transform 1s ease;
+            height: 100%;
+        }
+        
+        .carousel-item {
+            min-width: 100%;
+            height: 100%;
+        }
+        
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Form container */
+        .form-container {
+            height: 100vh;
+            overflow-y: auto;
+        }
+    </style>
 </head>
-<body class="bg-gray-50">
-    
-
-    <div class="container mx-auto px-4 py-8 max-w-2xl">
-        <div class="bg-white shadow-2xl rounded-2xl overflow-hidden">
-            <div class="bg-gradient-to-r from-akademix-orange to-orange-500 p-6">
-                <h2 class="text-4xl font-extrabold text-white text-center tracking-tight">Academic Feedback</h2>
-                <p class="text-center text-white/80 mt-2">Share your insights to help us improve</p>
+<body>
+    <!-- Main Container -->
+    <div class="flex flex-row w-full h-screen">
+        
+        <!-- Left Side - Image Slideshow Only -->
+        <div class="w-1/2 h-screen bg-orange-50">
+            <div class="carousel h-full">
+                <div class="carousel-inner">
+                    <div class="carousel-item">
+                        <img src="https://i.pinimg.com/736x/a4/8f/02/a48f023600498d8c65d29a010e0875c9.jpg" alt="Students">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://i.pinimg.com/474x/64/81/86/648186bdb7490db17432bcef5b2fa048.jpg" alt="Campus Life">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://i.pinimg.com/736x/10/ac/20/10ac20ef10b362a564eb2a841397c2df.jpg" alt="Students">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://i.pinimg.com/474x/3e/02/33/3e02335ec0676b1321ee742a27896e89.jpg" alt="Graduation">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://i.pinimg.com/474x/61/be/91/61be91fd470e9046c9ecb06182923aa1.jpg" alt="Campus">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://i.pinimg.com/474x/28/8c/ec/288cec7f3de5409db4d84063d936a16b.jpg" alt="Students">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://i.pinimg.com/474x/0b/6a/21/0b6a213d52afe86713ad1a9f7b5e4b60.jpg" alt="Students">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://i.pinimg.com/474x/8c/9e/85/8c9e85563df0d91f1d1658d6d7d0e64c.jpg" alt="Students">
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <img src="https://i.pinimg.com/736x/eb/6a/32/eb6a327b413cf8c18819cbf44f3237b0.jpg" alt="Students">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://i.pinimg.com/736x/55/26/3b/55263be53e59828870d16851d08e3dad.jpg" alt="Students">
+                    </div><div class="carousel-item">
+                        <img src="https://i.pinimg.com/736x/a8/50/6f/a8506f7fe7260d34c2ccd5ef2d775778.jpg" alt="Students">
+                    </div>
+                </div>
             </div>
-            
-            <form id="feedbackForm" class="p-6 space-y-6" onsubmit="submitFeedback(event)">
-                <div class="grid md:grid-cols-2 gap-4">
+        </div>
+        
+        <!-- Right Side - Akademix Form -->
+        <div class="w-1/2 bg-white p-8 flex items-center justify-center form-container">
+            <div class="glass-effect p-8 rounded-xl shadow-2xl w-full max-w-lg border border-white/30 transition duration-300 hover:shadow-orange-500/30">
+                <h2 class="text-3xl mb-4 font-extrabold text-center bg-gradient-to-r from-orange-500 to-black text-transparent bg-clip-text">Akademix Help Center</h2>
+                <p class="text-gray-800 text-center mb-6 font-medium">We're here to assist with your academic needs</p>
+                
+                <form class="space-y-5" onsubmit="sendemailto(event);">
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                        <input 
-                            type="text" 
-                            id="name" 
-                            name="name" 
-                            required 
-                            placeholder="Your full name"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-akademix-orange transition duration-200"
-                        >
+                        <label for="name" class="block text-sm font-medium text-gray-800">Your Name:</label>
+                        <input type="text" id="name" name="name" required class="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm input-transparent">
                     </div>
                     
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="email" 
-                            required 
-                            placeholder="you@example.com"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-akademix-orange transition duration-200"
-                        >
-                    </div>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div>
-                        <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Feedback Category</label>
-                        <select 
-                            id="category" 
-                            name="category" 
-                            required 
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-akademix-orange transition duration-200"
-                        >
-                            <option value="" disabled selected>Select Category</option>
-                            <option value="Exam">Exam Experience</option>
-                            <option value="Assignments">Assignment Quality</option>
-                            <option value="Classes">Teaching Methodology</option>
-                            <option value="Infrastructure">Campus Infrastructure</option>
-                            <option value="Others">Other Suggestions</option>
+                        <label for="category" class="block text-sm font-medium text-gray-800">Category:</label>
+                        <select id="category" name="category" required class="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm input-transparent">
+                            <option value="" disabled selected>Select a category</option>
+                            <option value="Exam">Exam</option>
+                            <option value="Assignments">Assignments</option>
+                            <option value="Classes">Classes</option>
+                            <option value="Others">Others</option>
                         </select>
                     </div>
                     
                     <div>
-                        <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Subject/Course</label>
-                        <input 
-                            type="text" 
-                            id="subject" 
-                            name="subject" 
-                            required 
-                            placeholder="e.g. Advanced Mathematics"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-akademix-orange transition duration-200"
-                        >
+                        <label for="subject" class="block text-sm font-medium text-gray-800">Subject Name:</label>
+                        <input type="text" id="subject" name="subject" required class="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm input-transparent">
                     </div>
-                </div>
-
-                <div>
-                    <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Detailed Feedback</label>
-                    <textarea 
-                        id="description" 
-                        name="description" 
-                        required 
-                        rows="4"
-                        placeholder="Provide detailed insights about your experience..."
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-akademix-orange transition duration-200 resize-none"
-                    ></textarea>
-                </div>
-
-                <button 
-                    type="submit" 
-                    class="w-full bg-akademix-orange text-white py-3 rounded-md hover:bg-orange-600 transition duration-300 ease-in-out transform hover:scale-[1.02] shadow-md hover:shadow-lg"
-                >
-                    Submit Feedback
-                </button>
-            </form>
-        </div>
-        
-        <div id="successMessage" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-            <div class="bg-white p-8 rounded-xl shadow-2xl text-center max-w-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-akademix-orange mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <h3 class="text-2xl font-bold text-gray-800 mb-2">Feedback Submitted!</h3>
-                <p class="text-gray-600 mb-4">Thank you for helping us improve.</p>
-                <button onclick="closeSuccessMessage()" class="bg-akademix-orange text-white px-6 py-2 rounded-md hover:bg-orange-600">Close</button>
+                    
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-800">Email:</label>
+                        <input type="email" id="email" name="email" required class="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm input-transparent">
+                    </div>
+                    
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-800">Description:</label>
+                        <textarea id="description" name="description" required class="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 h-28 resize-none shadow-sm input-transparent" placeholder="Describe your query..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition duration-300 shadow-md font-semibold flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
+                        Submit Request
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 
     <script>
-        // EmailJS Initialization
-        (function(){
-            emailjs.init({
-                publicKey: "cA9fZgMQoJqPXzlzX",
-            });
-        })();
-
-        function submitFeedback(event) {
+        // Email JS function
+        function sendemailto(event){
             event.preventDefault();
-            
-            // Collect form data
-            const formData = {
+            let vari = {
                 name: document.getElementById("name").value.trim(),
-                email: document.getElementById("email").value.trim(),
                 category: document.getElementById("category").value,
                 course: document.getElementById("subject").value.trim(),
+                email: document.getElementById("email").value.trim(),
                 message: document.getElementById("description").value.trim()
             };
-
-            // Basic validation
-            if (Object.values(formData).some(value => !value)) {
-                alert("Please fill in all fields.");
+            if (!vari.name || !vari.category || !vari.course || !vari.email || !vari.message) {
+                alert("Please fill in all the fields.");
                 return;
             }
-
-            // Send email using EmailJS
-            emailjs.send("service_4nvyxnd", "template_2zw1yra", formData)
-                .then(() => {
-                    document.getElementById('feedbackForm').reset();
-                    document.getElementById('successMessage').classList.remove('hidden');
-                })
-                .catch((error) => {
-                    console.error("Email send failed:", error);
-                    alert("Failed to submit feedback. Please try again.");
-                });
+            emailjs.send("service_zhxtrit", "template_2zw1yra", vari).then(() => {
+                alert('Your query has been submitted successfully.');
+                document.querySelector("form").reset();
+            }).catch(error => {
+                alert('There was an error submitting your request. Please try again.');
+                console.error('EmailJS error:', error);
+            });
         }
-
-        function closeSuccessMessage() {
-            document.getElementById('successMessage').classList.add('hidden');
+        
+        // Enhanced carousel functionality with circular looping
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-item');
+        const totalSlides = slides.length;
+        const carouselInner = document.querySelector('.carousel-inner');
+        
+        function showSlide(index) {
+            // For circular looping, when we reach the end, smoothly transition to first slide
+            if (index >= totalSlides) {
+                // Option 1: Simply reset to the first slide
+                currentSlide = 0;
+            } else {
+                // Normal forward progression
+                currentSlide = index;
+            }
+            
+            // Apply the transformation
+            carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
         }
+        
+        // Auto slide the carousel every 3 seconds - always moving forward
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 3000);
+        
+        // Clone the first slide and append it to the end for truly seamless looping
+        // This is an alternative approach that can be used with a slightly different implementation
+        // of the showSlide function, but the current implementation works well for basic needs
     </script>
 </body>
 </html>
