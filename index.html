@@ -62,14 +62,33 @@
             height: 100vh;
             overflow-y: auto;
         }
+
+        /* Media queries for responsiveness */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .carousel-container, .form-container {
+                width: 100%;
+            }
+            
+            .carousel-container {
+                height: 30vh;
+            }
+            
+            .form-container {
+                height: 70vh;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Main Container -->
-    <div class="flex flex-row w-full h-screen">
+    <div class="flex flex-col md:flex-row w-full h-screen main-container">
         
         <!-- Left Side - Image Slideshow Only -->
-        <div class="w-1/2 h-screen bg-orange-50">
+        <div class="w-full md:w-1/2 h-[30vh] md:h-screen bg-orange-50 carousel-container">
             <div class="carousel h-full">
                 <div class="carousel-inner">
                     <div class="carousel-item">
@@ -102,7 +121,8 @@
                     </div>
                     <div class="carousel-item">
                         <img src="https://i.pinimg.com/736x/55/26/3b/55263be53e59828870d16851d08e3dad.jpg" alt="Students">
-                    </div><div class="carousel-item">
+                    </div>
+                    <div class="carousel-item">
                         <img src="https://i.pinimg.com/736x/a8/50/6f/a8506f7fe7260d34c2ccd5ef2d775778.jpg" alt="Students">
                     </div>
                 </div>
@@ -110,20 +130,20 @@
         </div>
         
         <!-- Right Side - Akademix Form -->
-        <div class="w-1/2 bg-white p-8 flex items-center justify-center form-container">
-            <div class="glass-effect p-8 rounded-xl shadow-2xl w-full max-w-lg border border-white/30 transition duration-300 hover:shadow-orange-500/30">
-                <h2 class="text-3xl mb-4 font-extrabold text-center bg-gradient-to-r from-orange-500 to-black text-transparent bg-clip-text">Akademix Help Center</h2>
-                <p class="text-gray-800 text-center mb-6 font-medium">We're here to assist with your academic needs</p>
+        <div class="w-full md:w-1/2 bg-white p-4 md:p-8 flex items-center justify-center form-container">
+            <div class="glass-effect p-4 md:p-8 rounded-xl shadow-xl w-full max-w-lg border border-white/30 transition duration-300 hover:shadow-orange-500/30">
+                <h2 class="text-2xl md:text-3xl mb-2 md:mb-4 font-extrabold text-center bg-gradient-to-r from-orange-500 to-black text-transparent bg-clip-text">Akademix Help Center</h2>
+                <p class="text-gray-800 text-center mb-4 md:mb-6 font-medium text-sm md:text-base">We're here to assist with your academic needs</p>
                 
-                <form class="space-y-5" onsubmit="sendemailto(event);">
+                <form class="space-y-3 md:space-y-5" onsubmit="sendemailto(event);">
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-800">Your Name:</label>
-                        <input type="text" id="name" name="name" required class="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm input-transparent">
+                        <label for="name" class="block text-xs md:text-sm font-medium text-gray-800">Your Name:</label>
+                        <input type="text" id="name" name="name" required class="w-full p-2 md:p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm input-transparent">
                     </div>
                     
                     <div>
-                        <label for="category" class="block text-sm font-medium text-gray-800">Category:</label>
-                        <select id="category" name="category" required class="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm input-transparent">
+                        <label for="category" class="block text-xs md:text-sm font-medium text-gray-800">Category:</label>
+                        <select id="category" name="category" required class="w-full p-2 md:p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm input-transparent">
                             <option value="" disabled selected>Select a category</option>
                             <option value="Exam">Exam</option>
                             <option value="Assignments">Assignments</option>
@@ -133,22 +153,22 @@
                     </div>
                     
                     <div>
-                        <label for="subject" class="block text-sm font-medium text-gray-800">Subject Name:</label>
-                        <input type="text" id="subject" name="subject" required class="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm input-transparent">
+                        <label for="subject" class="block text-xs md:text-sm font-medium text-gray-800">Subject Name:</label>
+                        <input type="text" id="subject" name="subject" required class="w-full p-2 md:p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm input-transparent">
                     </div>
                     
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-800">Email:</label>
-                        <input type="email" id="email" name="email" required class="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm input-transparent">
+                        <label for="email" class="block text-xs md:text-sm font-medium text-gray-800">Email:</label>
+                        <input type="email" id="email" name="email" required class="w-full p-2 md:p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm input-transparent">
                     </div>
                     
                     <div>
-                        <label for="description" class="block text-sm font-medium text-gray-800">Description:</label>
-                        <textarea id="description" name="description" required class="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 h-28 resize-none shadow-sm input-transparent" placeholder="Describe your query..."></textarea>
+                        <label for="description" class="block text-xs md:text-sm font-medium text-gray-800">Description:</label>
+                        <textarea id="description" name="description" required class="w-full p-2 md:p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 h-20 md:h-28 resize-none shadow-sm input-transparent" placeholder="Describe your query..."></textarea>
                     </div>
                     
-                    <button type="submit" class="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition duration-300 shadow-md font-semibold flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <button type="submit" class="w-full bg-orange-500 text-white py-2 md:py-3 rounded-lg hover:bg-orange-600 transition duration-300 shadow-md font-semibold flex items-center justify-center text-sm md:text-base">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                         </svg>
                         Submit Request
@@ -207,9 +227,15 @@
             showSlide(currentSlide + 1);
         }, 3000);
         
-        // Clone the first slide and append it to the end for truly seamless looping
-        // This is an alternative approach that can be used with a slightly different implementation
-        // of the showSlide function, but the current implementation works well for basic needs
+        // Fix for iOS Safari overflow issues
+        document.addEventListener('DOMContentLoaded', function() {
+            if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                document.body.style.height = 'calc(100% + 1px)';
+                setTimeout(function() {
+                    document.body.style.height = '100%';
+                }, 1000);
+            }
+        });
     </script>
 </body>
 </html>
