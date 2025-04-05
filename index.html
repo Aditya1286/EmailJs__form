@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LPU Student Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript"
@@ -19,8 +19,7 @@
         html, body {
             height: 100%;
             margin: 0;
-            padding: 0;
-            overflow-x: hidden;
+            overflow: hidden;
         }
         
         .glass-effect {
@@ -50,7 +49,6 @@
         .carousel-item {
             min-width: 100%;
             height: 100%;
-            flex-shrink: 0;
         }
         
         .carousel-item img {
@@ -61,29 +59,36 @@
         
         /* Form container */
         .form-container {
+            height: 100vh;
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
         }
 
-        /* Fix iOS height issues */
-        @supports (-webkit-touch-callout: none) {
-            .ios-height-fix {
-                height: -webkit-fill-available;
+        /* Media queries for responsiveness */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
             }
-        }
-        
-        /* Prevent zooming on input focus for iOS */
-        input, select, textarea {
-            font-size: 16px; /* Prevents zoom on iOS */
+            
+            .carousel-container, .form-container {
+                width: 100%;
+            }
+            
+            .carousel-container {
+                height: 30vh;
+            }
+            
+            .form-container {
+                height: 70vh;
+            }
         }
     </style>
 </head>
-<body class="ios-height-fix">
+<body>
     <!-- Main Container -->
-    <div class="flex flex-col md:flex-row w-full h-full">
+    <div class="flex flex-col md:flex-row w-full h-screen main-container">
         
-        <!-- Top/Left Side - Image Slideshow Only -->
-        <div class="w-full md:w-1/2 h-[30vh] md:h-screen bg-orange-50">
+        <!-- Left Side - Image Slideshow Only -->
+        <div class="w-full md:w-1/2 h-[30vh] md:h-screen bg-orange-50 carousel-container">
             <div class="carousel h-full">
                 <div class="carousel-inner">
                     <div class="carousel-item">
@@ -110,6 +115,7 @@
                     <div class="carousel-item">
                         <img src="https://i.pinimg.com/474x/8c/9e/85/8c9e85563df0d91f1d1658d6d7d0e64c.jpg" alt="Students">
                     </div>
+                    
                     <div class="carousel-item">
                         <img src="https://i.pinimg.com/736x/eb/6a/32/eb6a327b413cf8c18819cbf44f3237b0.jpg" alt="Students">
                     </div>
@@ -123,13 +129,13 @@
             </div>
         </div>
         
-        <!-- Bottom/Right Side - Akademix Form -->
-        <div class="w-full md:w-1/2 bg-white p-4 md:p-8 flex items-center justify-center form-container h-[70vh] md:h-screen">
+        <!-- Right Side - Akademix Form -->
+        <div class="w-full md:w-1/2 bg-white p-4 md:p-8 flex items-center justify-center form-container">
             <div class="glass-effect p-4 md:p-8 rounded-xl shadow-xl w-full max-w-lg border border-white/30 transition duration-300 hover:shadow-orange-500/30">
                 <h2 class="text-2xl md:text-3xl mb-2 md:mb-4 font-extrabold text-center bg-gradient-to-r from-orange-500 to-black text-transparent bg-clip-text">Akademix Help Center</h2>
                 <p class="text-gray-800 text-center mb-4 md:mb-6 font-medium text-sm md:text-base">We're here to assist with your academic needs</p>
                 
-                <form class="space-y-3 md:space-y-5" id="helpForm" onsubmit="sendemailto(event);">
+                <form class="space-y-3 md:space-y-5" onsubmit="sendemailto(event);">
                     <div>
                         <label for="name" class="block text-xs md:text-sm font-medium text-gray-800">Your Name:</label>
                         <input type="text" id="name" name="name" required class="w-full p-2 md:p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm input-transparent">
@@ -189,76 +195,46 @@
             }
             emailjs.send("service_zhxtrit", "template_2zw1yra", vari).then(() => {
                 alert('Your query has been submitted successfully.');
-                document.getElementById("helpForm").reset();
+                document.querySelector("form").reset();
             }).catch(error => {
                 alert('There was an error submitting your request. Please try again.');
                 console.error('EmailJS error:', error);
             });
         }
         
-        // Enhanced carousel functionality with proper looping
+        // Enhanced carousel functionality with circular looping
         let currentSlide = 0;
         const slides = document.querySelectorAll('.carousel-item');
         const totalSlides = slides.length;
         const carouselInner = document.querySelector('.carousel-inner');
         
-        // Clone first slide and append to end for smooth looping
-        const firstSlideClone = slides[0].cloneNode(true);
-        carouselInner.appendChild(firstSlideClone);
-        
         function showSlide(index) {
-            if (index > totalSlides) {
-                // When we reach the cloned first slide, quickly reset to real first slide without animation
-                carouselInner.style.transition = 'none';
+            // For circular looping, when we reach the end, smoothly transition to first slide
+            if (index >= totalSlides) {
+                // Option 1: Simply reset to the first slide
                 currentSlide = 0;
-                carouselInner.style.transform = `translateX(0)`;
-                
-                // Force reflow to make the transition removal take effect immediately
-                void carouselInner.offsetWidth;
-                
-                // Re-enable transitions for next move
-                carouselInner.style.transition = 'transform 1s ease';
-                currentSlide = 1;
-                carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
             } else {
-                // Normal transition
+                // Normal forward progression
                 currentSlide = index;
-                carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
             }
+            
+            // Apply the transformation
+            carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
         }
         
-        // Auto slide every 3 seconds
+        // Auto slide the carousel every 3 seconds - always moving forward
         setInterval(() => {
             showSlide(currentSlide + 1);
         }, 3000);
         
-        // Initial setup - ensure transitions are enabled
-        carouselInner.style.transition = 'transform 1s ease';
-        
-        // Fix mobile viewport height issue (especially for iOS)
-        function setMobileHeight() {
-            const vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
-            
-            const mainContainer = document.querySelector('.form-container');
-            if (window.innerWidth < 768) {
-                mainContainer.style.height = `calc(var(--vh, 1vh) * 70)`;
+        // Fix for iOS Safari overflow issues
+        document.addEventListener('DOMContentLoaded', function() {
+            if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                document.body.style.height = 'calc(100% + 1px)';
+                setTimeout(function() {
+                    document.body.style.height = '100%';
+                }, 1000);
             }
-        }
-        
-        // Set height on load and resize
-        window.addEventListener('load', setMobileHeight);
-        window.addEventListener('resize', setMobileHeight);
-        
-        // Fix for iOS input focus scrolling issues
-        const formFields = document.querySelectorAll('input, select, textarea');
-        formFields.forEach(field => {
-            field.addEventListener('focus', function() {
-                // Slight delay to let the keyboard appear
-                setTimeout(() => {
-                    field.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 300);
-            });
         });
     </script>
 </body>
